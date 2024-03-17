@@ -1,7 +1,7 @@
 <script setup>
 import { db } from '../firebase/firebase.js'
-import { doc, updateDoc } from 'firebase/firestore'
-import { ref, inject } from 'vue'
+import { doc, getDoc, setDoc, updateDoc, deleteField } from 'firebase/firestore'
+import { ref, inject, onMounted } from 'vue'
 
 const { user, userSignOut } = inject('userInfo')
 const plan = ref('')
@@ -81,9 +81,29 @@ const calculateCalories = async () => {
     carbs: recomendedCarbs.value,
     proteins: recomendedProteins.value,
     fats: recomendedFats.value,
-    allergenics: allergenics.value
+    allergenics: allergenics.value,
+    plan: plan.value,
+    gender: gender.value,
+    growth: growth.value,
+    weight: weight.value,
+    age: age.value
   })
 }
+
+onMounted(async () => {
+  const userRef = doc(db, 'users', user.value.uid)
+  const userData = (await getDoc(userRef)).data()
+  plan.value = userData.plan
+  gender.value = userData.gender
+  growth.value = userData.growth
+  weight.value = userData.weight
+  age.value = userData.age
+  allergenics.value = userData.allergenics
+  recomendedCalories.value = userData.calories
+  recomendedProteins.value = userData.proteins
+  recomendedCarbs.value = userData.carbs
+  recomendedFats.value = userData.fats
+})
 </script>
 
 <template>

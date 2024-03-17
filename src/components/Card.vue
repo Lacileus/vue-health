@@ -1,5 +1,5 @@
 <script setup>
-import { doc, arrayUnion, updateDoc, arrayRemove } from 'firebase/firestore'
+import { doc, arrayUnion, updateDoc, arrayRemove, getDoc, setDoc } from 'firebase/firestore'
 import { db } from '../firebase/firebase.js'
 import { ref, inject } from 'vue'
 import CloudImage from './CloudImage.vue'
@@ -37,6 +37,11 @@ const addToMeal = async (mealType) => {
   const date = new Date()
   const today = `${date.getFullYear()}-${date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1}-${date.getDate() < 10 ? '0' + date.getDate() : date.getDate()}`
   const recordRef = doc(db, 'users', user.value.uid, 'records', today)
+  const recordData = (await getDoc(recordRef)).data()
+  if (!recordData) {
+    await setDoc(recordRef, { currentWeight: null, breakfast: [], lunch: [], dinner: [] })
+  }
+
   if (mealType === 'breakfast') {
     await updateDoc(recordRef, {
       breakfast: arrayUnion({

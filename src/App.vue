@@ -14,9 +14,6 @@ import Header from './components/Header.vue'
 // Корзина START //
 const cart = ref([])
 const totalPrice = computed(() => cart.value.reduce((acc, item) => (acc += item.price), 0))
-const taxPrice = computed(() => Math.round(totalPrice.value * 0.05))
-
-const isDrawerOpen = ref(false)
 
 const router = useRouter()
 const user = ref(null)
@@ -31,6 +28,8 @@ const userSignUp = async () => {
     if (res) {
       user.value = res.user
       router.push('/profile')
+      email.value = ''
+      password.value = ''
       await setDoc(doc(db, 'users', user.value.uid), {
         calories: 0,
         carbs: 0,
@@ -38,12 +37,28 @@ const userSignUp = async () => {
         fats: 0,
         favorites: [],
         ownRecipes: [],
-        records: []
+        allergenics: []
       })
     }
     error.value = null
   } catch (e) {
-    error.value = e
+    if (e.toString() === 'FirebaseError: Firebase: Error (auth/invalid-email).') {
+      console.log(2)
+      error.value = 'Неверный email'
+    } else if (e.toString() === 'FirebaseError: Firebase: Error (auth/missing-password).') {
+      error.value = 'Отсутствует пароль'
+    } else if (e.toString() === 'FirebaseError: Firebase: Error (auth/invalid-credential).') {
+      error.value = 'Неверный пароль'
+    } else if (e.toString() === 'FirebaseError: Firebase: Error (auth/email-already-in-use).') {
+      error.value = 'Пользователь с таким email уже зарегестрирован'
+    } else if (
+      e.toString() ===
+      'FirebaseError: Firebase: Password should be at least 6 characters (auth/weak-password).'
+    ) {
+      error.value = 'Пароль должен быть как минимум 6 символов'
+    } else {
+      error.value = e
+    }
   }
 }
 
@@ -53,9 +68,27 @@ const userSignIn = async () => {
     if (res) {
       user.value = res.user
       error.value = null
+      email.value = ''
+      password.value = ''
     }
   } catch (e) {
-    error.value = e
+    if (e.toString() === 'FirebaseError: Firebase: Error (auth/invalid-email).') {
+      console.log(2)
+      error.value = 'Неверный email'
+    } else if (e.toString() === 'FirebaseError: Firebase: Error (auth/missing-password).') {
+      error.value = 'Отсутствует пароль'
+    } else if (e.toString() === 'FirebaseError: Firebase: Error (auth/invalid-credential).') {
+      error.value = 'Неверный пароль'
+    } else if (e.toString() === 'FirebaseError: Firebase: Error (auth/email-already-in-use).') {
+      error.value = 'Пользователь с таким email уже зарегестрирован'
+    } else if (
+      e.toString() ===
+      'FirebaseError: Firebase: Password should be at least 6 characters (auth/weak-password).'
+    ) {
+      error.value = 'Пароль должен быть как минимум 6 символов'
+    } else {
+      error.value = e
+    }
   }
 }
 

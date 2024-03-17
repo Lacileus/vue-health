@@ -55,6 +55,21 @@ const uploadRecipe = async () => {
   await updateDoc(doc(db, 'users', user.value.uid), {
     ownRecipes: arrayUnion(newRecipe)
   })
+
+  newRecipe.name = ''
+  newRecipe.category = 'Без категории'
+  newRecipe.picUrl = ''
+  newRecipe.cals = null
+  newRecipe.proteins = null
+  newRecipe.carbs = null
+  newRecipe.fats = null
+  newRecipe.desc = ''
+  newRecipe.allergenics = []
+  newRecipe.ingredients = []
+  ingredient.value = ''
+  quantity.value = 0
+  unit.value = 'гр.'
+  userCat.value = ''
 }
 </script>
 
@@ -98,24 +113,64 @@ const uploadRecipe = async () => {
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <input
         v-model.number="newRecipe.cals"
+        @input="
+          () => {
+            if (newRecipe.cals < 0) {
+              newRecipe.cals = 0
+            }
+            if (newRecipe.cals > 900) {
+              newRecipe.cals = 900
+            }
+          }
+        "
         class="p-4 rounded-xl bg-slate-50 transition hover:bg-slate-100 border-2"
         type="number"
         placeholder="🔥 Ккал на 100г"
       />
       <input
         v-model.number="newRecipe.proteins"
+        @input="
+          () => {
+            if (newRecipe.proteins < 0) {
+              newRecipe.proteins = 0
+            }
+            if (newRecipe.proteins > 100) {
+              newRecipe.proteins = 100
+            }
+          }
+        "
         class="p-4 rounded-xl bg-slate-50 transition hover:bg-slate-100 border-2"
         type="number"
         placeholder="🥩 Белки на 100г"
       />
       <input
         v-model.number="newRecipe.carbs"
+        @input="
+          () => {
+            if (newRecipe.carbs < 0) {
+              newRecipe.carbs = 0
+            }
+            if (newRecipe.carbs > 100) {
+              newRecipe.carbs = 100
+            }
+          }
+        "
         class="p-4 rounded-xl bg-slate-50 transition hover:bg-slate-100 border-2"
         type="number"
         placeholder="🍞 Углеводы на 100г"
       />
       <input
         v-model.number="newRecipe.fats"
+        @input="
+          () => {
+            if (newRecipe.fats < 0) {
+              newRecipe.fats = 0
+            }
+            if (newRecipe.fats > 100) {
+              newRecipe.fats = 100
+            }
+          }
+        "
         class="p-4 rounded-xl bg-slate-50 transition hover:bg-slate-100 border-2"
         type="number"
         placeholder="🥑 Жиры на 100г"
@@ -217,6 +272,16 @@ const uploadRecipe = async () => {
             v-if="item.unit !== 'по вкусу'"
             type="number"
             v-model.number="item.quantity"
+            @input="
+              () => {
+                if (item.quantity < 0) {
+                  item.quantity = 0
+                }
+                if (item.quantity > 5000) {
+                  item.quantity = 5000
+                }
+              }
+            "
           />
           <select
             :class="item.unit === 'по вкусу' ? 'col-span-3' : 'col-span-2'"
@@ -246,6 +311,16 @@ const uploadRecipe = async () => {
           type="number"
           placeholder=""
           v-model="quantity"
+          @input="
+            () => {
+              if (quantity < 0) {
+                quantity = 0
+              }
+              if (quantity > 5000) {
+                quantity = 5000
+              }
+            }
+          "
         />
         <select
           :class="unit === 'по вкусу' ? 'col-span-3' : 'col-span-2'"
@@ -297,6 +372,7 @@ const uploadRecipe = async () => {
           <CloudImage :path="newRecipe.picUrl" />
         </div>
         <button
+          :disabled="!newRecipe.name"
           @click="uploadRecipe"
           class="mx-auto w-fit rounded-full p-6 text-xl bg-green-400 border-2 border-green-500 hover:bg-green-300 hover:border-green-400 hover:shadow-green-400 hover:shadow-lg hover:-translate-y-2 transition disabled:bg-gray-400 disabled:border-gray-500 disabled:shadow-gray-300"
         >

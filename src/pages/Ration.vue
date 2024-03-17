@@ -31,7 +31,6 @@ const selectedDate = ref(
 )
 
 const mealsRecord = reactive({
-  date: '',
   currentWeight: null,
   breakfast: [],
   lunch: [],
@@ -83,13 +82,16 @@ const validateWeigth = async (event) => {
   }
   const recordRef = doc(db, 'users', user.value.uid, 'records', selectedDate.value)
   if (mealsRecord.currentWeight) {
-    await updateDoc(recordRef, {
-      currentWeight: mealsRecord.currentWeight
-    })
+    await setDoc(recordRef, { ...mealsRecord })
+    // await updateDoc(recordRef, {
+    //   currentWeight: mealsRecord.currentWeight
+    // }
+    // )
   } else {
-    await updateDoc(recordRef, {
-      currentWeight: deleteField()
-    })
+    await setDoc(recordRef, { ...mealsRecord })
+    // await updateDoc(recordRef, {
+    //   currentWeight: deleteField()
+    // })
   }
 }
 

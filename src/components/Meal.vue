@@ -187,7 +187,6 @@ const addCustomProduct = () => {
 }
 
 const removeCustomProduct = (index) => {
-  console.log(index)
   customMeals.value.splice(index, 1)
 }
 
@@ -199,6 +198,34 @@ const addMeal = () => {
   selectedMeals.value = []
   customMeals.value = []
   meals.value.forEach((item) => (item.isSelected = false))
+}
+
+const validateCustomMeal = (customMeal) => {
+  if (customMeal.amount < 1) {
+    customMeal.amount = 1
+  }
+  if (customMeal.proteins < 0) {
+    customMeal.proteins = 0
+  }
+  if (customMeal.carbs < 0) {
+    customMeal.carbs = 0
+  }
+  if (customMeal.fats < 0) {
+    customMeal.fats = 0
+  }
+  if (customMeal.amount > 5000) {
+    customMeal.amount = 5000
+  }
+  if (customMeal.proteins > 100) {
+    customMeal.proteins = 100
+  }
+  if (customMeal.carbs > 100) {
+    customMeal.carbs = 100
+  }
+  if (customMeal.fats > 100) {
+    customMeal.fats = 100
+  }
+  customMeal.cals = 4 * customMeal.proteins + 4 * customMeal.carbs + 9 * customMeal.fats
 }
 </script>
 
@@ -255,7 +282,7 @@ const addMeal = () => {
           "
           class="truncate py-1 px-2 rounded-full"
         >
-          {{ product.localeName }} {{ product.amount }}г
+          {{ product.localeName || 'Без названия' }} {{ product.amount }}г
         </span>
       </div>
       <div class="flex flex-wrap gap-2">
@@ -346,10 +373,20 @@ const addMeal = () => {
           <span class="text-center">{{ item.localeName }} </span>
           <input
             v-model="item.amount"
+            @input="
+              () => {
+                if (item.amount > 5000) {
+                  item.amount = 5000
+                }
+                if (item.amount < 1) {
+                  item.amount = 1
+                }
+              }
+            "
             type="number"
             class="bg-inherit font-bold text-center"
             min="0"
-            max="1000"
+            max="5000"
             step="10"
           />
           <span class="text-center"
@@ -386,43 +423,48 @@ const addMeal = () => {
           </div>
           <input
             v-model="customMeal.amount"
+            @input="validateCustomMeal(customMeal)"
             type="number"
             class="bg-inherit font-bold text-center"
             min="0"
-            max="1000"
+            max="5000"
             step="10"
           />
-          <input
+          <!-- <input
             v-model="customMeal.cals"
             type="number"
             class="bg-inherit font-bold text-center"
             min="0"
             max="1000"
             step="10"
-          />
+          /> -->
+          <span class="bg-inherit text-center">{{ customMeal.cals }}</span>
           <input
             v-model="customMeal.proteins"
+            @input="validateCustomMeal(customMeal)"
             type="number"
             class="bg-inherit font-bold text-center"
             min="0"
-            max="1000"
-            step="10"
+            max="100"
+            step="1"
           />
           <input
             v-model="customMeal.carbs"
+            @input="validateCustomMeal(customMeal)"
             type="number"
             class="bg-inherit font-bold text-center"
             min="0"
-            max="1000"
-            step="10"
+            max="100"
+            step="1"
           />
           <input
             v-model="customMeal.fats"
+            @input="validateCustomMeal(customMeal)"
             type="number"
             class="bg-inherit font-bold text-center"
             min="0"
-            max="1000"
-            step="10"
+            max="100"
+            step="1"
           />
         </div>
 
@@ -459,7 +501,7 @@ const addMeal = () => {
         </div>
       </div>
       <div class="mx-auto mb-4">
-        <button @click="addMeal" class="p-4 bg-green-400 rounded-3xl">
+        <button @click="addMeal" class="p-4 bg-green-400 rounded-3xl transition hover:bg-green-300">
           Добавить прием пищи ✔️
         </button>
       </div>
