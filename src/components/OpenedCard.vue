@@ -37,7 +37,7 @@ onMounted(async () => {
       </button>
       <h2 class="text-3xl font-bold">{{ card.name }}</h2>
       <div class="flex flex-col md:flex-row items-center gap-8">
-        <div class="flex flex-col justify-center w-full md:w-1/2 h-full p-4">
+        <div class="flex flex-col justify-center w-full md:w-1/2 p-4">
           <h3 class="text-xl font-bold">Энергетическая ценность на 100 грамм</h3>
           <div class="flex flex-col gap-4 my-4">
             <div class="flex">
