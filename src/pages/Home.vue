@@ -98,17 +98,17 @@ watch(filters, fetchItems)
           class="w-full sm:w-1/2 md:w-1/3 border rounded-md outline-none py-2 px-3"
         >
           <option value="">Все категории</option>
-          <option value="Завтраки">Завтраки</option>
-          <option value="Десерты">Десерты</option>
-          <option value="Напитки">Напитки</option>
-          <option value="Выпечка">Выпечка</option>
-          <option value="Закуски">Закуски</option>
-          <option value="Сэндвичи">Сэндвичи</option>
-          <option value="Основные блюда">Основные блюда</option>
-          <option value="Супы">Супы</option>
-          <option value="Салаты">Салаты</option>
-          <option value="Пицца">Пицца</option>
-          <option value="Заготовки">Заготовки</option>
+          <option value="Завтраки">🍎 Завтраки</option>
+          <option value="Десерты">🧁 Десерты</option>
+          <option value="Напитки">🥤 Напитки</option>
+          <option value="Выпечка">🥧 Выпечка</option>
+          <option value="Закуски">🍢 Закуски</option>
+          <option value="Сэндвичи">🥪 Сэндвичи</option>
+          <option value="Основные блюда">🧆 Основные блюда</option>
+          <option value="Супы">🥣 Супы</option>
+          <option value="Салаты">🥗 Салаты</option>
+          <option value="Пицца">🍕 Пицца</option>
+          <option value="Заготовки">🥫 Заготовки</option>
         </select>
         <div class="relative flex w-full sm:w-1/2 md:w-1/3">
           <img class="absolute left-4 top-3" src="/search.svg" alt="" />
