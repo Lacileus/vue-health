@@ -33,3 +33,7 @@ input::-webkit-outer-spin-button {
 select {
   -webkit-appearance: none;
 }
+
+select:hover {
+  cursor: pointer;
+}
