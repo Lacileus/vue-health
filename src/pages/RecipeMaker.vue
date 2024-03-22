@@ -5,7 +5,6 @@ import { storage, db } from '../firebase/firebase.js'
 import { ref as firebaseRef, uploadBytes } from 'firebase/storage'
 import { doc, updateDoc, arrayUnion } from 'firebase/firestore'
 
-import CloudImage from '../components/CloudImage.vue'
 const newRecipe = reactive({
   name: '',
   category: 'Без категории',
@@ -26,6 +25,7 @@ const unit = ref('гр.')
 const userCat = ref('')
 
 const selectedFile = ref('')
+const localURL = ref('recipeImages/placeholder.png')
 const myfile = ref(null)
 const addIngredient = () => {
   newRecipe.ingredients.push({
@@ -39,19 +39,25 @@ const addIngredient = () => {
 }
 
 const removeIngredient = () => {
-  newRecipe.ingredients.pop()
+  const deletedIngredient = newRecipe.ingredients.pop()
+  ingredient.value = deletedIngredient.ingredient
+  quantity.value = deletedIngredient.quantity
+  unit.value = deletedIngredient.unit
 }
 
-const uploadPic = () => {
-  selectedFile.value = ''
-  newRecipe.picUrl = uuidV4() + '.png'
-  const storageRef = firebaseRef(storage, newRecipe.picUrl)
-  uploadBytes(storageRef, myfile.value.files[0]).then((snapshot) => console.dir(snapshot))
+const uploadPic = async () => {
+  if (selectedFile.value) {
+    selectedFile.value = ''
+    localURL.value = 'recipeImages/placeholder.png'
+    newRecipe.picUrl = uuidV4() + '.png'
+    const storageRef = firebaseRef(storage, newRecipe.picUrl)
+    uploadBytes(storageRef, myfile.value.files[0]).then((snapshot) => console.dir(snapshot))
+  }
 }
 
 const uploadRecipe = async () => {
+  await uploadPic()
   newRecipe.category === 'Свой вариант' && (newRecipe.category = userCat.value)
-
   await updateDoc(doc(db, 'users', user.value.uid), {
     ownRecipes: arrayUnion(newRecipe)
   })
@@ -70,6 +76,15 @@ const uploadRecipe = async () => {
   quantity.value = 0
   unit.value = 'гр.'
   userCat.value = ''
+}
+
+const handleImageSelection = (event) => {
+  selectedFile.value = myfile.value.files[0]
+  if (selectedFile.value) {
+    localURL.value = URL.createObjectURL(selectedFile.value)
+  }
+  // selectedFile.value = event.target.value
+  // localURL = URL.createObjectURL(selectedFile)
 }
 </script>
 
@@ -110,7 +125,7 @@ const uploadRecipe = async () => {
         placeholder="Название категории"
       />
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-4 gap-4">
       <input
         v-model.number="newRecipe.cals"
         @input="
@@ -355,22 +370,15 @@ const uploadRecipe = async () => {
       <span class="text-lg font-bold"> Добавить картинку: </span>
       <div class="mt-2 flex flex-col gap-4">
         <input
-          :value="selectedFile"
-          @input="(event) => (selectedFile = event.target.value)"
+          @change="() => handleImageSelection(event)"
           type="file"
+          accept="image/*"
           ref="myfile"
         />
-
-        <button
-          class="w-fit rounded-3xl p-4 bg-amber-400 border-2 border-amber-500 hover:bg-amber-300 hover:border-amber-400 hover:shadow-amber-400 hover:shadow-lg transition disabled:bg-gray-400 disabled:border-gray-500 disabled:shadow-gray-300"
-          :disabled="!selectedFile"
-          @click="uploadPic"
-        >
-          Загрузить изображение
-        </button>
         <div class="w-64 rounded-3xl overflow-hidden mb-8">
-          <CloudImage :path="newRecipe.picUrl" />
+          <img class="aspect-square object-cover w-full h-full" :src="localURL" alt="Абобуз" />
         </div>
+
         <button
           :disabled="!newRecipe.name"
           @click="uploadRecipe"

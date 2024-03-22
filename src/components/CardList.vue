@@ -6,7 +6,7 @@ const props = defineProps({
   load: Boolean
 })
 
-const emit = defineEmits(['heart-clicked', 'recipe-deleted'])
+const emit = defineEmits(['heart-clicked'])
 
 const handleCardHeartClick = (id, isFavorite) => {
   emit('heart-clicked', id, isFavorite)
@@ -17,7 +17,6 @@ const handleCardHeartClick = (id, isFavorite) => {
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4" v-auto-animate>
     <Card
       v-for="item in items"
-      @card-recipe-deleted="() => emit('recipe-deleted')"
       @card-heart-clicked="handleCardHeartClick"
       :id="item.id"
       :key="item.id"

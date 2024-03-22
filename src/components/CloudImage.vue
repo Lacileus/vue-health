@@ -21,18 +21,18 @@ onMounted(() => {
   }
 })
 
-watch(
-  () => props.path,
-  () => {
-    setTimeout(() => {
-      getDownloadURL(firebaseRef(storage, props.path)).then(
-        (downloadUrl) => (url.value = downloadUrl)
-      )
-    }, 5000)
-  }
-)
+// watch(
+//   () => props.path,
+//   () => {
+//     setTimeout(() => {
+//       getDownloadURL(firebaseRef(storage, props.path)).then(
+//         (downloadUrl) => (url.value = downloadUrl)
+//       )
+//     }, 5000)
+//   }
+// )
 </script>
 
 <template>
-  <img :src="url" class="aspect-square object-cover" alt="Картинка блюда" />
+  <img :src="url" class="aspect-square object-cover w-full" alt="Картинка блюда" />
 </template>

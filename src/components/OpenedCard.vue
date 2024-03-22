@@ -36,7 +36,7 @@ onMounted(async () => {
         <img src="/plus3.svg" class="origin-center rotate-45" alt="Закрыть описание" />
       </button>
       <h2 class="text-3xl font-bold">{{ card.name }}</h2>
-      <div class="flex flex-col md:flex-row items-center gap-8">
+      <div class="w-full flex flex-col md:flex-row items-center gap-8">
         <div class="flex flex-col justify-center w-full md:w-1/2 p-4">
           <h3 class="text-xl font-bold">Энергетическая ценность на 100 грамм</h3>
           <div class="flex flex-col gap-4 my-4">
@@ -76,10 +76,7 @@ onMounted(async () => {
             >
           </div>
         </div>
-        <div
-          v-if="card.load"
-          class="w-3/4 md:w-1/2 aspect-square object-cover rounded-3xl overflow-hidden"
-        >
+        <div v-if="card.load" class="w-3/4 md:w-1/2 rounded-3xl overflow-hidden">
           <CloudImage :path="card.imageUrl" />
         </div>
         <img

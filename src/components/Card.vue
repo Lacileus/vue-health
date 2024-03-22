@@ -22,13 +22,13 @@ const props = defineProps({
 })
 
 const { user } = inject('userInfo')
-
+const isCardHidden = ref(false)
 const isCardOpened = ref(false)
 const isAddingToMeal = ref(false)
 
 const quantity = ref(100)
 
-const emit = defineEmits(['card-heart-clicked', 'card-recipe-deleted'])
+const emit = defineEmits(['card-heart-clicked'])
 
 const localeImageUrl = ref('recipeImages/')
 
@@ -110,7 +110,7 @@ const removeRecipe = async () => {
     })
   })
   console.log('wtf')
-  emit('card-recipe-deleted')
+  isCardHidden.value = true
 }
 </script>
 
@@ -119,6 +119,7 @@ const removeRecipe = async () => {
 
   <div
     @click="() => (isCardOpened = true)"
+    v-if="!isCardHidden"
     class="relative overflow-hidden h-auto bg-white border border-slate-400 rounded-3xl cursor-pointer transition hover:-translate-y-2 hover:shadow-xl"
   >
     <div
@@ -193,7 +194,7 @@ const removeRecipe = async () => {
 
     <div class="flex justify-between m-4">
       <div class="flex flex-col">
-        <p>{{ name }}</p>
+        <p class="line-clamp-1">{{ name }}</p>
         <b class="">{{ cals }} Ккал</b>
         <span class="text-slate-400">БЖУ: {{ proteins }} | {{ fats }} | {{ carbs }}</span>
       </div>

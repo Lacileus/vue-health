@@ -7,17 +7,6 @@ import { ref, onMounted, inject } from 'vue'
 const { user } = inject('userInfo')
 const ownRecipes = ref([])
 
-const fetchRecipes = async () => {
-  const userRef = doc(db, 'users', user.value.uid)
-  const userSnap = await getDoc(userRef)
-
-  const fbRecipes = []
-  userSnap.data().ownRecipes.forEach((doc) => {
-    fbRecipes.push(doc)
-  })
-  ownRecipes.value = fbRecipes
-}
-
 onMounted(async () => {
   const userRef = doc(db, 'users', user.value.uid)
   const userSnap = await getDoc(userRef)
@@ -33,6 +22,6 @@ onMounted(async () => {
 <template>
   <div>
     <h1 class="text-3xl font-bold mb-4">Мои рецепты</h1>
-    <CardList :items="ownRecipes" :load="true" @recipe-deleted="fetchRecipes" />
+    <CardList :items="ownRecipes" :load="true" />
   </div>
 </template>

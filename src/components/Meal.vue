@@ -370,7 +370,7 @@ const validateCustomMeal = (customMeal) => {
           :key="index"
           class="grid grid-cols-6 mb-2 border-b-2"
         >
-          <span class="text-center">{{ item.localeName }} </span>
+          <span class="text-center truncate">{{ item.localeName }} </span>
           <input
             v-model="item.amount"
             @input="

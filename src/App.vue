@@ -114,7 +114,7 @@ provide('userInfo', {
   <div v-if="user">
     <div class="bg-white w-full sm:w-4/5 2xl:w-[1280px] m-auto sm:rounded-xl shadow-xl sm:my-14">
       <Header :total-price="totalPrice" />
-      <div class="p-8">
+      <div class="p-2 sm:p-8">
         <router-view></router-view>
       </div>
     </div>
