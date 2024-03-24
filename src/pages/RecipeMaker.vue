@@ -383,7 +383,6 @@ const handleImageSelection = () => {
         >
           Добавить рецепт
         </button>
-        {{ selectedFile }}
       </div>
     </div>
   </div>
