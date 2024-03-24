@@ -61,7 +61,6 @@ const uploadRecipe = async () => {
   await updateDoc(doc(db, 'users', user.value.uid), {
     ownRecipes: arrayUnion(newRecipe)
   })
-
   newRecipe.name = ''
   newRecipe.category = 'Без категории'
   newRecipe.picUrl = ''
@@ -78,13 +77,11 @@ const uploadRecipe = async () => {
   userCat.value = ''
 }
 
-const handleImageSelection = (event) => {
+const handleImageSelection = () => {
   selectedFile.value = myfile.value.files[0]
   if (selectedFile.value) {
     localURL.value = URL.createObjectURL(selectedFile.value)
   }
-  // selectedFile.value = event.target.value
-  // localURL = URL.createObjectURL(selectedFile)
 }
 </script>
 

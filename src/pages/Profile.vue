@@ -271,7 +271,7 @@ onMounted(async () => {
           @click="calculateCalories"
           class="p-6 rounded-3xl text-lg bg-amber-400 border-amber-500 border-2 hover:bg-amber-300 hover:border-amber-300 hover:shadow-amber-400 hover:shadow-xl hover:-translate-y-2 transition disabled:bg-gray-400 disabled:shadow-gray-300 disabled:border-gray-400"
         >
-          Расчитать дневную норму калорий
+          Сохранить изменения
         </button>
       </div>
       <div class="flex flex-col items-center w-full">

@@ -43,7 +43,6 @@ const userSignUp = async () => {
     error.value = null
   } catch (e) {
     if (e.toString() === 'FirebaseError: Firebase: Error (auth/invalid-email).') {
-      console.log(2)
       error.value = 'Неверный email'
     } else if (e.toString() === 'FirebaseError: Firebase: Error (auth/missing-password).') {
       error.value = 'Отсутствует пароль'
@@ -73,7 +72,6 @@ const userSignIn = async () => {
     }
   } catch (e) {
     if (e.toString() === 'FirebaseError: Firebase: Error (auth/invalid-email).') {
-      console.log(2)
       error.value = 'Неверный email'
     } else if (e.toString() === 'FirebaseError: Firebase: Error (auth/missing-password).') {
       error.value = 'Отсутствует пароль'

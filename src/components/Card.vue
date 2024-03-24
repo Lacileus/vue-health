@@ -109,7 +109,6 @@ const removeRecipe = async () => {
       proteins: props.proteins
     })
   })
-  console.log('wtf')
   isCardHidden.value = true
 }
 </script>
@@ -134,8 +133,18 @@ const removeRecipe = async () => {
           <input
             step="10"
             min="0"
-            max="1000"
+            max="5000"
             v-model.number="quantity"
+            @input="
+              () => {
+                if (quantity > 5000) {
+                  quantity = 5000
+                }
+                if (quantity < 1) {
+                  quantity = 1
+                }
+              }
+            "
             type="number"
             class="w-20 text-center bg-inherit outline-none"
           />
