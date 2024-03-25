@@ -269,9 +269,11 @@ onMounted(async () => {
   <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8 rounded-3xl">
     <div
       :class="
-        sumOfCals > userData.calories
-          ? 'bg-amber-300 shadow-xl shadow-amber-200 border-amber-300 hover:bg-amber-200 hover:border-amber-200'
-          : 'bg-slate-100'
+        !userData.calories
+          ? 'bg-slate-100'
+          : sumOfCals > userData.calories
+            ? 'bg-amber-300 shadow-xl shadow-amber-200 border-amber-300 hover:bg-amber-200 hover:border-amber-200'
+            : 'bg-slate-100'
       "
       class="flex flex-col items-center justify-center p-4 rounded-3xl border-2 transition"
     >
@@ -286,9 +288,11 @@ onMounted(async () => {
     </div>
     <div
       :class="
-        sumOfProteins > userData.proteins
-          ? 'bg-amber-300 shadow-xl shadow-amber-200 border-amber-300 hover:bg-amber-200 hover:border-amber-200'
-          : 'bg-slate-100'
+        !userData.proteins
+          ? 'bg-slate-100'
+          : sumOfProteins > userData.proteins
+            ? 'bg-amber-300 shadow-xl shadow-amber-200 border-amber-300 hover:bg-amber-200 hover:border-amber-200'
+            : 'bg-slate-100'
       "
       class="flex flex-col items-center justify-center p-4 rounded-3xl border-2 transition"
     >
@@ -303,9 +307,11 @@ onMounted(async () => {
     </div>
     <div
       :class="
-        sumOfCarbs > userData.carbs
-          ? 'bg-amber-300 shadow-xl shadow-amber-200 border-amber-300 hover:bg-amber-200 hover:border-amber-200'
-          : 'bg-slate-100'
+        !userData.carbs
+          ? 'bg-slate-100'
+          : sumOfCarbs > userData.carbs
+            ? 'bg-amber-300 shadow-xl shadow-amber-200 border-amber-300 hover:bg-amber-200 hover:border-amber-200'
+            : 'bg-slate-100'
       "
       class="flex flex-col items-center justify-center p-4 rounded-3xl border-2 transition"
     >
@@ -318,9 +324,11 @@ onMounted(async () => {
     </div>
     <div
       :class="
-        sumOfFats > userData.fats
-          ? 'bg-amber-300 shadow-xl shadow-amber-200 border-amber-300 hover:bg-amber-200 hover:border-amber-200'
-          : 'bg-slate-100'
+        !userData.fats
+          ? 'bg-slate-100'
+          : sumOfFats > userData.fats
+            ? 'bg-amber-300 shadow-xl shadow-amber-200 border-amber-300 hover:bg-amber-200 hover:border-amber-200'
+            : 'bg-slate-100'
       "
       class="flex flex-col items-center justify-center p-4 rounded-3xl border-2 transition"
     >

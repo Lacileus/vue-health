@@ -14,6 +14,7 @@ const handleCardHeartClick = (id, isFavorite) => {
 </script>
 
 <template>
+  <h2 v-if="!items.length" class="mt-8 text-xl text-center text-slate-400">Записей пока что нет</h2>
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4" v-auto-animate>
     <Card
       v-for="item in items"
