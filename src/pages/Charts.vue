@@ -105,7 +105,7 @@ onMounted(async () => {
   )
   console.log(sumOfFats)
   const sumOfCalories = sumOfProteins.reduce(
-    (acc, item, index) => (acc.push(item + sumOfCarbs[index] + sumOfFats[index]), acc),
+    (acc, item, index) => (acc.push(item * 4 + sumOfCarbs[index] * 4 + sumOfFats[index] * 9), acc),
     []
   )
   const sumOfDates = records.value.map((item) => item.date)
