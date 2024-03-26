@@ -205,8 +205,8 @@ const removeRecipe = async () => {
       <div class="flex flex-col">
         <p class="line-clamp-1">{{ name }}</p>
         <b v-if="cals">{{ cals }} Ккал</b>
-        <span v-if="proteins && fats && carbs" class="text-slate-400"
-          >БЖУ: {{ proteins }} | {{ fats }} | {{ carbs }}</span
+        <span class="text-slate-400"
+          >БЖУ: {{ proteins || 0 }} | {{ fats || 0 }} | {{ carbs || 0 }}</span
         >
       </div>
     </div>
