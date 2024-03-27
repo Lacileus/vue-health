@@ -10,6 +10,9 @@ const weight = ref(null)
 const growth = ref(null)
 const age = ref(null)
 const allergenics = ref([])
+const bodyMassIndex = ref(0)
+const optimalWeight = ref(0)
+const bodyMassIndexInfo = ref('')
 const recomendedCalories = ref(0)
 const recomendedCarbs = ref(0)
 const recomendedProteins = ref(0)
@@ -51,7 +54,43 @@ const validateAge = (event) => {
   }
 }
 
+const getBodyMassIndexInfo = () => {
+  if (bodyMassIndex.value < 16) {
+    bodyMassIndexInfo.value = 'Значительный дефицит массы тела'
+    return
+  }
+  if (bodyMassIndex.value <= 18.5) {
+    bodyMassIndexInfo.value = 'Недостаток массы тела'
+    return
+  }
+  if (bodyMassIndex.value <= 25) {
+    bodyMassIndexInfo.value = 'Норма веса'
+    return
+  }
+  if (bodyMassIndex.value <= 30) {
+    bodyMassIndexInfo.value = 'Излишек массы тела'
+    return
+  }
+  if (bodyMassIndex.value <= 35) {
+    bodyMassIndexInfo.value = 'Начальная степень ожирения'
+    return
+  }
+  if (bodyMassIndex.value <= 40) {
+    bodyMassIndexInfo.value = 'Средняя степень ожирения'
+    return
+  }
+  if (bodyMassIndex.value > 40) {
+    bodyMassIndexInfo.value = 'Ожирение высокой степени'
+    return
+  }
+}
+
 const calculateCalories = async () => {
+  bodyMassIndex.value = weight.value / (growth.value / 100) ** 2
+  optimalWeight.value = ((growth.value / 100) ** 2 * (gender.value === 'male' ? 23.5 : 19)).toFixed(
+    1
+  )
+  getBodyMassIndexInfo()
   recomendedCalories.value = weight.value * 10 + growth.value * 6.25 - age.value * 5
   if (gender.value === 'male') {
     recomendedCalories.value += 5
@@ -86,6 +125,7 @@ const calculateCalories = async () => {
     gender: gender.value,
     growth: growth.value,
     weight: weight.value,
+    optimalWeight: optimalWeight.value,
     age: age.value
   })
 }
@@ -103,6 +143,11 @@ onMounted(async () => {
   recomendedProteins.value = userData.proteins
   recomendedCarbs.value = userData.carbs
   recomendedFats.value = userData.fats
+  bodyMassIndex.value = weight.value / (growth.value / 100) ** 2
+  optimalWeight.value = ((growth.value / 100) ** 2 * (gender.value === 'male' ? 23.5 : 19)).toFixed(
+    1
+  )
+  getBodyMassIndexInfo()
 })
 </script>
 
@@ -275,6 +320,14 @@ onMounted(async () => {
         </button>
       </div>
       <div class="flex flex-col items-center w-full">
+        <span class="text-lg text-center w-full sm:w-1/2">
+          Индекс массы тела:
+          {{ bodyMassIndex ? bodyMassIndex.toFixed(1) : '____' }} {{ bodyMassIndexInfo }}
+        </span>
+        <span class="mb-8 text-lg text-center w-full sm:w-1/2">
+          Оптимальный вес:
+          {{ optimalWeight || '____' }}
+        </span>
         <span class="text-lg text-center w-full sm:w-1/2">
           Ваша дневная норма:
           {{ recomendedCalories || '____' }} Ккал</span

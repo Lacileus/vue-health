@@ -1,6 +1,6 @@
 <script setup>
 import { db } from '../firebase/firebase.js'
-import { doc, getDoc, setDoc, updateDoc, deleteField } from 'firebase/firestore'
+import { doc, getDoc, setDoc } from 'firebase/firestore'
 import debounce from 'lodash.debounce'
 import Meal from '@/components/Meal.vue'
 import { ref, reactive, inject, onMounted } from 'vue'
