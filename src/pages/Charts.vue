@@ -23,7 +23,6 @@ onMounted(async () => {
     fbrecords.push(record)
   })
   records.value = fbrecords
-
   const sumOfProteins = records.value.map(
     (item) =>
       item.breakfast.reduce(
@@ -136,7 +135,7 @@ onMounted(async () => {
           }
         },
         {
-          label: 'Норма',
+          label: `Норма: ${userData.calories}`,
           data: Array(sumOfCalories.length).fill(userData.calories),
           pointStyle: false,
           borderColor: '#fde68a',
@@ -166,6 +165,10 @@ onMounted(async () => {
       labels: sumOfDates,
       datasets: [
         {
+          label: `Норма(гр): белки: ${userData.proteins}, жиры: ${userData.fats}, углеводы: ${userData.carbs}`,
+          backgroundColor: '#ffffff'
+        },
+        {
           label: 'Белки, гр.',
           data: sumOfProteins,
           backgroundColor: Array(sumOfProteins.length)
@@ -176,7 +179,6 @@ onMounted(async () => {
                 ? '#f87171'
                 : '#fbbf24'
             )
-          // backgroundColor: '#fbbf24'
         },
         {
           label: 'Жиры, гр.',
@@ -188,7 +190,6 @@ onMounted(async () => {
                 ? '#fca5a5'
                 : '#fcd34d'
             )
-          // backgroundColor: '#fcd34d'
         },
 
         {
@@ -201,18 +202,17 @@ onMounted(async () => {
                 ? '#fecaca'
                 : '#fde68a'
             )
-          // backgroundColor: '#fde68a'
-        },
-        {
-          label: 'Общая норма, гр.',
-          type: 'line',
-          borderColor: '#f59e0b',
-          backgroundColor: '#ffffff',
-          pointStyle: false,
-          data: Array(sumOfCarbs.length)
-            .fill()
-            .map(() => userData.proteins + userData.carbs + userData.fats)
         }
+        // {
+        //   label: 'Общая норма, гр.',
+        //   type: 'line',
+        //   borderColor: '#f59e0b',
+        //   backgroundColor: '#ffffff',
+        //   pointStyle: false,
+        //   data: Array(sumOfCarbs.length)
+        //     .fill()
+        //     .map(() => userData.proteins + userData.carbs + userData.fats)
+        // }
       ]
     },
 
@@ -235,6 +235,10 @@ onMounted(async () => {
     data: {
       labels: sumOfDates,
       datasets: [
+        {
+          label: `Норма(Ккал): белки: ${userData.proteins * 4}, жиры: ${userData.fats * 9}, углеводы: ${userData.carbs * 4}`,
+          backgroundColor: '#ffffff'
+        },
         {
           label: 'Белки, Ккал.',
           data: sumOfProteins.map((item) => item * 4),
@@ -272,15 +276,15 @@ onMounted(async () => {
                 : '#fde68a'
             )
           // backgroundColor: '#fde68a'
-        },
-        {
-          label: 'Общая норма, Ккал.',
-          type: 'line',
-          borderColor: '#f59e0b',
-          backgroundColor: '#ffffff',
-          pointStyle: false,
-          data: Array(sumOfCarbs.length).fill(userData.calories)
         }
+        // {
+        //   label: 'Общая норма, Ккал.',
+        //   type: 'line',
+        //   borderColor: '#f59e0b',
+        //   backgroundColor: '#ffffff',
+        //   pointStyle: false,
+        //   data: Array(sumOfCarbs.length).fill(userData.calories)
+        // }
       ]
     },
 
@@ -314,7 +318,7 @@ onMounted(async () => {
           }
         },
         {
-          label: 'Оптимальный вес, кг',
+          label: `Оптимальный вес: ${userData.optimalWeight}`,
           pointStyle: false,
           data: Array(sumOfCurentWeights.length).fill(userData.optimalWeight),
           borderColor: '#fde68a',
